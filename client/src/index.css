@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-sm text-gray-900 dark:text-dark-text bg-gray-50 dark:bg-dark-bg;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    @apply bg-primary/30;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-border dark:bg-dark-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-textMuted;
+  }
+
+  input, textarea, select {
+    @apply outline-none;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    @apply ring-2 ring-primary/50;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm
+           transition-all duration-150 cursor-pointer select-none
+           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white hover:bg-primary-hover active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply btn bg-dark-surface text-dark-text hover:bg-dark-hover active:scale-[0.98]
+           dark:bg-dark-surface dark:border dark:border-dark-border;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-dark-textSecondary hover:bg-dark-hover hover:text-dark-text;
+  }
+
+  .btn-danger {
+    @apply btn bg-danger text-white hover:bg-danger/90 active:scale-[0.98];
+  }
+
+  .btn-icon {
+    @apply btn p-2 aspect-square rounded-lg;
+  }
+
+  .input {
+    @apply w-full px-3 py-2 rounded-lg bg-white dark:bg-dark-surface
+           border border-gray-200 dark:border-dark-border
+           text-gray-900 dark:text-dark-text
+           placeholder-gray-400 dark:placeholder-dark-textMuted
+           transition-all duration-150;
+  }
+
+  .input-error {
+    @apply border-danger focus:ring-danger/50;
+  }
+
+  .card {
+    @apply bg-white dark:bg-dark-surface rounded-xl border border-gray-100 dark:border-dark-border
+           shadow-sm;
+  }
+
+  .badge {
+    @apply inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary/10 text-primary;
+  }
+
+  .badge-success {
+    @apply badge bg-success/10 text-success;
+  }
+
+  .badge-warning {
+    @apply badge bg-warning/10 text-warning;
+  }
+
+  .badge-danger {
+    @apply badge bg-danger/10 text-danger;
+  }
+
+  .dropdown {
+    @apply absolute z-50 mt-1 w-full min-w-[200px] rounded-lg bg-white dark:bg-dark-surface
+           border border-gray-100 dark:border-dark-border shadow-xl
+           animate-scale-in overflow-hidden;
+  }
+
+  .dropdown-item {
+    @apply flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-dark-text
+           hover:bg-dark-hover cursor-pointer transition-colors;
+  }
+
+  .dropdown-divider {
+    @apply my-1 border-t border-gray-100 dark:border-dark-border;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+           text-dark-textSecondary hover:bg-dark-hover hover:text-dark-text
+           cursor-pointer transition-all duration-150;
+  }
+
+  .sidebar-item-active {
+    @apply bg-dark-active text-dark-text;
+  }
+
+  .chat-bubble {
+    @apply max-w-[70%] px-4 py-2 rounded-2xl text-sm leading-relaxed;
+  }
+
+  .chat-bubble-own {
+    @apply chat-bubble bg-primary text-white rounded-br-md;
+  }
+
+  .chat-bubble-other {
+    @apply chat-bubble bg-dark-surface text-dark-text rounded-bl-md;
+  }
+
+  .online-dot {
+    @apply w-3 h-3 rounded-full bg-success border-2 border-dark-surface;
+  }
+
+  .status-dot {
+    @apply w-2.5 h-2.5 rounded-full border-2 border-white dark:border-dark-bg;
+  }
+
+  .status-online {
+    @apply status-dot bg-success;
+  }
+
+  .status-offline {
+    @apply status-dot bg-dark-textMuted;
+  }
+
+  .status-away {
+    @apply status-dot bg-warning;
+  }
+
+  .status-busy {
+    @apply status-dot bg-danger;
+  }
+
+  .message-enter {
+    @apply animate-slide-up;
+  }
+
+  .modal-overlay {
+    @apply fixed inset-0 z-50 bg-black/50 backdrop-blur-sm
+           flex items-center justify-center p-4;
+  }
+
+  .modal {
+    @apply card w-full max-w-md animate-scale-in;
+  }
+
+  .toast {
+    @apply fixed bottom-4 right-4 z-50 card px-4 py-3 shadow-xl
+           animate-slide-up flex items-center gap-3 max-w-sm;
+  }
+
+  .tooltip {
+    @apply absolute z-50 px-2 py-1 text-xs rounded bg-dark-surface2 text-dark-text
+           shadow-lg border border-dark-border whitespace-nowrap;
+  }
+
+  .search-input {
+    @apply input pl-10 bg-dark-surface2 border-dark-border;
+  }
+
+  .typing-indicator {
+    @apply flex items-center gap-1;
+  }
+
+  .typing-dot {
+    @apply w-2 h-2 rounded-full bg-dark-textMuted animate-bounce;
+  }
+
+  .typing-dot:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .typing-dot:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Emoji picker overrides - works with emoji-picker-react v4 */
+emoji-picker-react {
+  --epr-bg-color: #2B2D31;
+  --epr-border-color: #313338;
+  --epr-category-icon-active-color: #5865F2;
+  --epr-search-border-color: #5865F2;
+  --epr-text-color: #F2F3F5;
+  --epr-secondary-text-color: #B5BAC1;
+  --epr-hover-bg-color: #404249;
+  --epr-active-bg-color: #5865F2;
+  --epr-skin-tone-picker-height: 32px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #313338;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 641px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}

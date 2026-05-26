@@ -1,0 +1,73 @@
+{
+  "name": "teamchat",
+  "productName": "TeamChat",
+  "version": "1.0.0",
+  "description": "Internal Chat App for teams - Realtime messaging application",
+  "main": "main.js",
+  "author": "TeamChat",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "dev:electron": "NODE_ENV=development electron .",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "server": "cd server && npm start",
+    "electron:build": "npm run build && electron-builder",
+    "electron:build:win": "npm run build && electron-builder --win --x64 --dir"
+  },
+  "build": {
+    "appId": "com.teamchat.app",
+    "productName": "TeamChat",
+    "asar": true,
+    "asarUnpack": [
+      "server/node_modules/**/*"
+    ],
+    "directories": {
+      "output": "C:\\Users\\PC\\AppData\\Local\\Temp\\TeamChat-build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "package.json",
+      "server/package.json",
+      "server/src/**/*",
+      "server/node_modules/**/*",
+      "client/dist/**/*",
+      "client/public/**/*",
+      "client/package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "server/database",
+        "to": "database",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}.exe"
+    }
+  },
+  "devDependencies": {
+    "asar": "^3.2.0",
+    "concurrently": "^8.2.2",
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  }
+}
