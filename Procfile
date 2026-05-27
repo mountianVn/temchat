@@ -1,2 +1,1 @@
-build: bash build.sh
-web: cd server && npm start
+web: cd server && npm install && npm start
