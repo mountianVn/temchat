@@ -6,6 +6,12 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
+// Fallback JWT_SECRET if not set
+if (!process.env.JWT_SECRET) {
+  console.warn('WARNING: JWT_SECRET not set, using default (NOT SAFE for production)');
+  process.env.JWT_SECRET = 'teamchat_dev_secret_fallback_key_12345';
+}
+
 // Get project root (parent of server directory)
 const PROJECT_ROOT = path.resolve(__dirname, '..', '..');
 const UPLOADS_DIR = path.join(PROJECT_ROOT, 'uploads');
