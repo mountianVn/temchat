@@ -4,6 +4,17 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
+
+// Get project root (parent of server directory)
+const PROJECT_ROOT = path.resolve(__dirname, '..', '..');
+const UPLOADS_DIR = path.join(PROJECT_ROOT, 'uploads');
+const CLIENT_DIST = path.join(PROJECT_ROOT, 'client', 'dist');
+
+// Verify directories exist
+if (!fs.existsSync(CLIENT_DIST)) {
+  console.warn(`Warning: client/dist not found at ${CLIENT_DIST}`);
+}
 
 const { initializeDatabase } = require('./database/db');
 const { setupSocket } = require('./socket/socketHandler');
@@ -39,7 +50,7 @@ async function startServer() {
   app.use(express.urlencoded({ extended: true, limit: '50mb' }));
   app.use(sanitizeInput);
 
-  const uploadsDir = path.join(__dirname, '..', '..', 'uploads');
+  const uploadsDir = UPLOADS_DIR;
   app.use('/uploads', express.static(uploadsDir));
 
   await initializeDatabase();
@@ -57,10 +68,15 @@ async function startServer() {
 
   // Serve static files in production
   if (process.env.NODE_ENV === 'production') {
-    const clientDist = path.join(__dirname, '..', '..', 'client', 'dist');
-    app.use(express.static(clientDist));
+    app.use(express.static(CLIENT_DIST));
     app.get('*', (req, res) => {
-      res.sendFile(path.join(clientDist, 'index.html'));
+      const indexPath = path.join(CLIENT_DIST, 'index.html');
+      if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+      } else {
+        console.error(`index.html not found at ${indexPath}`);
+        res.status(500).send('Client build not found');
+      }
     });
   } else {
     app.use((req, res) => {
