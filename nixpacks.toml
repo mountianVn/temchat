@@ -1,21 +1,19 @@
 [phases.setup]
-npmCommand = ""
-buildCommand = '''
-echo "=== TeamChat Railway Build ==="
+command = '''
+echo "Setting up TeamChat..."
+'''
+
+[phases.build]
+command = '''
+echo "=== TeamChat Build ==="
+echo "Installing server dependencies..."
+cd server && npm install
 echo "Installing client dependencies..."
-cd client && npm install
+cd ../client && npm install
 echo "Building client..."
 npm run build
-echo "Installing server dependencies..."
-cd ../server && npm install --omit=dev
 echo "=== Build Complete ==="
 '''
 
-[phases.release]
-command = '''
-cd server
-npm start
-'''
-
-[startCommand]
-command = "cd server && npm install && npm start"
+[start]
+command = "cd server && npm start"
