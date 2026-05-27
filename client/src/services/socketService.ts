@@ -11,7 +11,8 @@ class SocketService {
     const token = useAuthStore.getState().token;
     if (!token || this.socket?.connected) return;
 
-    this.socket = io('/', {
+    const wsUrl = import.meta.env.VITE_WS_URL || '/';
+    this.socket = io(wsUrl, {
       auth: { token },
       transports: ['websocket', 'polling'],
       reconnection: true,

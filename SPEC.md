@@ -1,191 +1,184 @@
-# Internal Chat App - Project Specification
+# SN Checker - Specification
 
-## 1. Concept & Vision
+## 1. Project Overview
 
-A professional internal communication platform for technical teams, blending the speed of real-time messaging with the organizational power of group channels. The app feels like a blend of Discord's chat fluidity, Teams' professional tone, and Telegram's clean interface — fast, modern, and distraction-free. Built for developers who demand speed and reliability.
+- **Project Name**: SN Checker (Kiểm tra mã SN)
+- **Type**: Desktop Application
+- **Core Functionality**: Parse and validate serial number (SN) codes in CSV format and display extracted fields
+- **Target Users**: Quality control staff, warehouse managers, manufacturing personnel
 
-## 2. Design Language
+## 2. Technical Stack
 
-### Aesthetic Direction
-Dark-first professional chat application inspired by Discord/Teams hybrid. Clean lines, generous spacing, subtle depth through shadows and borders.
+- **Language**: Python 3.8+
+- **Framework**: PyQt6 (Qt6 for Python)
+- **UI Library**: PyQt6.QtWidgets
 
-### Color Palette
-- **Primary**: `#5865F2` (Discord-like blue)
-- **Primary Hover**: `#4752C4`
-- **Success**: `#23A55A`
-- **Warning**: `#F0B232`
-- **Danger**: `#F23F43`
-- **Background Dark**: `#1E1F22`
-- **Surface Dark**: `#2B2D31`
-- **Surface Darker**: `#232428`
-- **Border Dark**: `#313338`
-- **Text Primary Dark**: `#F2F3F5`
-- **Text Secondary Dark**: `#B5BAC1`
-- **Text Muted Dark**: `#6D6F78`
-- **Background Light**: `#F8F9FA`
-- **Surface Light**: `#FFFFFF`
-- **Border Light**: `#E3E5E8`
-- **Text Primary Light**: `#060607`
-- **Text Secondary Light**: `#2E3338`
+## 3. UI/UX Specification
 
-### Typography
-- **Font**: Inter (Google Fonts) with system fallbacks
-- **Scale**: 12px (xs), 13px (sm), 14px (base), 16px (md), 18px (lg), 24px (xl), 32px (2xl)
+### 3.1 Window Configuration
+- **Window Title**: "Kiểm tra mã SN"
+- **Window Size**: 500x450 pixels (fixed, non-resizable)
+- **Window Icon**: None (default)
+- **Window Position**: Centered on screen
 
-### Spatial System
-- 4px base unit: 4, 8, 12, 16, 20, 24, 32, 48, 64
-- Border radius: 4px (sm), 8px (md), 12px (lg), 9999px (pill)
+### 3.2 Color Palette
+| Element | Color | Hex Code |
+|---------|-------|----------|
+| Primary Background | Light Gray | #F5F5F5 |
+| Card Background | White | #FFFFFF |
+| Primary Text | Dark Gray | #333333 |
+| Secondary Text | Medium Gray | #666666 |
+| Valid Status | Green | #28A745 |
+| Valid Background | Light Green | #D4EDDA |
+| Error Status | Red | #DC3545 |
+| Error Background | Light Red | #F8D7DA |
+| Button Primary | Blue | #007BFF |
+| Button Primary Hover | Dark Blue | #0056B3 |
+| Button Danger | Red | #DC3545 |
+| Button Danger Hover | Dark Red | #C82333 |
+| Border | Light Border | #DEE2E6 |
 
-### Motion Philosophy
-- Transitions: 150ms ease for micro-interactions, 250ms ease-out for panels
-- Sidebar slide: 250ms cubic-bezier(0.4, 0, 0.2, 1)
-- Message appear: fade + slide up 8px, 200ms
-- Notification pulse: subtle glow animation
+### 3.3 Typography
+| Element | Font | Size | Weight |
+|---------|------|------|--------|
+| Window Title | Segoe UI | 18px | Bold |
+| Label Header | Segoe UI | 14px | SemiBold |
+| Label Field Name | Segoe UI | 12px | Normal |
+| Label Field Value | Segoe UI | 12px | Bold |
+| Status Message | Segoe UI | 12px | Normal |
+| Button Text | Segoe UI | 12px | Medium |
 
-## 3. Layout & Structure
-
+### 3.4 Layout Structure
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Header (56px)  ─  Conversation name / Search / Menu / Call  │
-├───────────┬────────────────────────────────┬─────────────────┤
-│  Sidebar  │     Chat Area (messages)       │   Right Panel   │
-│  (240px)  │                                │    (280px)      │
-│           │                                │                 │
-│  - Logo   │                                │  - User info    │
-│  - Search │                                │  - Members      │
-│  - DMs    │                                │  - Files        │
-│  - Groups │                                │  - Pinned msgs  │
-│           │                                │                 │
-├───────────┴────────────────────────────────┴─────────────────┤
-│  Input Area (auto)  ─  Textarea / Emoji / Attach / Send     │
-└──────────────────────────────────────────────────────────────┘
-```
-
-- Left sidebar collapsible on mobile
-- Right panel collapsible, hidden by default on mobile
-- Responsive breakpoints: 640px (sm), 768px (md), 1024px (lg), 1280px (xl)
-
-## 4. Features & Interactions
-
-### Authentication
-- Login with username + password, JWT stored in localStorage
-- Register with username, password, display name, department
-- Protected routes redirect to login
-- Auto-logout on token expiry
-
-### User Management
-- Profile: avatar (upload), display name, role, department, bio
-- Status: Online (green), Away (yellow), Busy (red), Offline (gray)
-- Automatic status based on activity
-
-### Contact List
-- Filter by name or department
-- Click to open DM conversation
-- Unread message badge with count
-- Last message preview
-
-### Direct Messages
-- Real-time message delivery via Socket.IO
-- Read receipts (single/double checkmark)
-- Typing indicator
-- File/image attachments with preview
-- Message timestamps (relative + absolute on hover)
-- Scroll to bottom on new message
-
-### Group Chats
-- Create group with name, avatar, members
-- Add/remove members
-- Change group name and avatar (admin)
-- Pin important messages
-- View pinned messages in right panel
-
-### Notifications
-- Browser notifications for background messages
-- In-app notification bell with badge count
-- Notification when mentioned (@username)
-- Toast notifications for new DMs
-
-## 5. Component Inventory
-
-| Component | States |
-|-----------|--------|
-| Button | default, hover, active, disabled, loading |
-| Input | default, focus, error, disabled |
-| Avatar | online, offline, typing, with badge |
-| Message | sent, delivered, read, own, foreign |
-| Sidebar Item | default, active, hover, unread |
-| Modal | open, closing |
-| Toast | success, error, info, warning |
-| Dropdown | closed, open |
-| Emoji Picker | closed, open |
-| File Preview | image, document, loading |
-
-## 6. Technical Approach
-
-### Frontend
-- React 18 + TypeScript
-- Vite 5 build tool
-- TailwindCSS 3
-- Zustand for state management
-- Socket.IO-client for realtime
-- React Router 6 for navigation
-- date-fns for time formatting
-
-### Backend
-- Node.js 18+ with Express 4
-- Socket.IO 4 for WebSocket
-- better-sqlite3 for SQLite
-- bcrypt for password hashing
-- jsonwebtoken for JWT
-- multer for file uploads
-- express-validator for input validation
-
-### API Design
-```
-POST   /api/auth/register
-POST   /api/auth/login
-GET    /api/auth/me
-
-GET    /api/users
-GET    /api/users/:id
-PUT    /api/users/:id
-PUT    /api/users/:id/avatar
-
-GET    /api/conversations
-GET    /api/conversations/:id/messages
-POST   /api/messages
-
-GET    /api/groups
-POST   /api/groups
-PUT    /api/groups/:id
-DELETE /api/groups/:id
-POST   /api/groups/:id/members
-DELETE /api/groups/:id/members/:userId
-
-POST   /api/upload
-GET    /uploads/:filename
++------------------------------------------+
+|          Kiểm tra mã SN                  |  <- Title (centered)
++------------------------------------------+
+|  [Input Card]                            |
+|  Nhập mã SN:                             |
+|  [________________________]              |  <- QLineEdit
+|  [Kiểm tra]  [Xóa]                       |  <- Buttons
++------------------------------------------+
+|  [Result Card]                           |
+|  Kết quả phân tích:                       |
+|                                          |
+|  Mã nhà sản xuất:  [VTW0000019]         |
+|  Mã vật liệu:      [791-3101-020]       |
+|  Số lượng:         [2000]               |
+|  Ngày sản xuất:    [2026-01-27]         |
+|                                          |
+|  [Status: Hợp lệ / Lỗi]                 |  <- Colored status bar
++------------------------------------------+
 ```
 
-### Socket Events
-```
-Client → Server:
-  join (userId)
-  send_message
-  typing_start
-  typing_stop
-  mark_read
-  join_group
-  leave_group
+### 3.5 Component Specifications
 
-Server → Client:
-  new_message
-  user_status
-  user_typing
-  message_read
-  member_joined
-  member_left
+#### Input Section
+- **QLabel**: "Nhập mã SN:"
+- **QLineEdit**: 
+  - Placeholder: "Nhập mã SN, ví dụ: VTW0000019,791-3101-020,2000,2026-01-27,NA,..."
+  - Min width: 400px
+  - Text changes trigger validation automatically
+
+#### Buttons
+- **Kiểm tra Button**:
+  - Text: "Kiểm tra"
+  - Style: Primary (blue)
+  - Min width: 100px
+  - Click triggers validation
+  
+- **Xóa Button**:
+  - Text: "Xóa"
+  - Style: Danger (red)
+  - Min width: 100px
+  - Click clears all fields and results
+
+#### Result Display
+- **Result Card**:
+  - 4 rows, each with:
+    - Field name label (left-aligned)
+    - Value label (right-aligned, bold)
+  - Initially shows placeholder dashes "---"
+  - Border: 1px solid #DEE2E6
+  - Border radius: 8px
+  - Padding: 15px
+  - Background: #FFFFFF
+
+#### Status Bar
+- **Status Label**:
+  - Empty by default
+  - On success: Green background, "✓ Mã SN hợp lệ", text #155724
+  - On error: Red background, error message, text #721C24
+  - Border radius: 5px
+  - Padding: 10px
+
+## 4. Functionality Specification
+
+### 4.1 Core Features
+
+#### SN Parsing Function: `parse_sn(sn_text)`
+```python
+def parse_sn(sn_text: str) -> tuple[bool, dict | str]
+```
+- **Input**: SN text string
+- **Output**: Tuple of (success, result_data or error_message)
+- **Processing Steps**:
+  1. Trim whitespace from input
+  2. Split by comma delimiter
+  3. Validate minimum 4 fields
+  4. Parse and validate each field
+  5. Return structured data or error message
+
+#### Field Validation Rules
+| Field | Index | Validation | Error Message |
+|-------|-------|------------|---------------|
+| Mã nhà sản xuất | 0 | Non-empty string | "Trường 1 (Mã nhà sản xuất) không được để trống" |
+| Mã vật liệu | 1 | Non-empty string | "Trường 2 (Mã vật liệu) không được để trống" |
+| Số lượng | 2 | Integer >= 0 | "Trường 3 (Số lượng) phải là số nguyên không âm" |
+| Ngày sản xuất | 3 | Format YYYY-MM-DD | "Trường 4 (Ngày sản xuất) không đúng định dạng YYYY-MM-DD" |
+
+### 4.2 User Interactions
+1. **On Text Change**: Auto-validate when user types (debounce 300ms)
+2. **On "Kiểm tra" Click**: Perform validation and update display
+3. **On "Xóa" Click**: Clear input field, results, and status
+4. **On Enter Key**: Same as "Kiểm tra" button
+
+### 4.3 Edge Cases
+- Empty input: Show nothing (no error)
+- Whitespace-only input: Treat as empty
+- Extra fields (5+): Ignore extra fields, process first 4
+- Negative quantity: Error
+- Invalid date format: Error
+- Date out of realistic range: Warning (optional)
+
+## 5. File Structure
+```
+app/
+├── SPEC.md           # This specification
+├── main.py           # Main application file
+└── requirements.txt  # Python dependencies
 ```
 
-### Data Model
-See Database section in requirements. SQLite schema includes:
-- users, messages, conversations, groups, group_members, attachments, notifications, pinned_messages
+## 6. Acceptance Criteria
+
+### Visual Checkpoints
+- [ ] Window displays with title "Kiểm tra mã SN"
+- [ ] Input field with placeholder text visible
+- [ ] Two buttons visible: "Kiểm tra" and "Xóa"
+- [ ] Result card shows 4 rows with field names
+- [ ] Green status appears for valid SN
+- [ ] Red status appears for invalid SN
+- [ ] "Xóa" clears all fields and results
+
+### Functional Checkpoints
+- [ ] Valid SN `VTW0000019,791-3101-020,2000,2026-01-27,NA,1260127TAH50070B4641001,NA` shows all 4 fields correctly
+- [ ] Empty input shows no error
+- [ ] Input with < 4 fields shows error about missing fields
+- [ ] Non-integer quantity shows error
+- [ ] Invalid date format shows error
+- [ ] Auto-validation works on text change
+
+### Code Quality Checkpoints
+- [ ] `parse_sn()` function is separate and testable
+- [ ] Exception handling is present
+- [ ] Code is readable with clear variable names
+- [ ] Application runs with `python main.py`

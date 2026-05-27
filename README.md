@@ -1,17 +1,23 @@
 # TeamChat - Internal Chat App
 
-ứng dụng chat nội bộ cho nhóm/nhà máy, realtime, với giao diện Discord/Teams-style.
+A realtime chat application for teams, built with React + Node.js + Socket.io.
 
 ## Quick Start
 
-**Windows:** Double-click `START.bat`
-**Mac/Linux:** `./START.sh`
+```bash
+# Install dependencies
+npm install
+cd server && npm install && cd ..
+cd client && npm install && cd ..
 
-## Requirements
-- Node.js 18+ https://nodejs.org/
+# Run servers
+npm run dev
+```
+
+Access at http://localhost:5173
 
 ## Demo Accounts
-Password cho tất cả: `password123`
+Password: `password123`
 
 | Username | Name | Role | Department |
 |----------|------|------|------------|
@@ -26,34 +32,23 @@ Password cho tất cả: `password123`
 
 ## Features
 - Real-time 1-on-1 and group chat
-- File/image sharing (drag & drop, paste)
+- File/image sharing
 - Emoji picker
-- Dark/Light theme toggle
+- Dark/Light theme
 - Online status indicators
-- Pinned messages (groups)
+- Pinned messages
 - User search
 
-## Manual Setup
+## Deploy to Railway
 
-```bash
-# Install dependencies
-cd server && npm install && cd ..
-cd client && npm install && cd ..
+1. Push code to GitHub
+2. Go to https://railway.app
+3. Connect GitHub repo
+4. Railway auto-detects Node.js
+5. Set environment variables:
+   - `PORT=3001`
+   - `JWT_SECRET=your_secret_key`
+6. Deploy!
 
-# Run servers
-npm run dev
-```
-
-Or separately:
-```bash
-cd server && npm run dev   # http://localhost:3001
-cd client && npm run dev  # http://localhost:5173
-```
-
-## Deploy
-See `DEPLOY.md` for cloud deployment (Railway, Render, VPS+Nginx).
-
-## Docs
-- `SPEC.md` - Technical specification
-- `DEPLOY.md` - Deployment guide
-- `README_VI.md` - Hướng dẫn tiếng Việt
+## License
+MIT

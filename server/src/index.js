@@ -22,7 +22,7 @@ async function startServer() {
 
   const io = new Server(server, {
     cors: {
-      origin: ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'],
+      origin: '*',
       methods: ['GET', 'POST'],
       credentials: true,
     },
@@ -31,7 +31,7 @@ async function startServer() {
   app.set('io', io);
 
   app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'],
+    origin: '*',
     credentials: true,
   }));
 
@@ -71,10 +71,12 @@ async function startServer() {
   setupSocket(io);
 
   const PORT = process.env.PORT || 3001;
-  server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`API: http://localhost:${PORT}/api`);
-    console.log(`WebSocket: ws://localhost:${PORT}`);
+  const HOST = process.env.HOST || '0.0.0.0';
+  server.listen(PORT, HOST, () => {
+    console.log(`Server running on http://${HOST}:${PORT}`);
+    console.log(`API: http://${HOST}:${PORT}/api`);
+    console.log(`WebSocket: ws://${HOST}:${PORT}`);
+    console.log(`Local: http://localhost:${PORT}`);
   });
 
   process.on('unhandledRejection', (err) => {
